@@ -34,6 +34,17 @@ Then /^I should see the following (\w+) in order$/ do |record_name, table|
   table.diff!(actual_table)
 end
 
+Then /^the (\w+) with a (.*) should have the following attributes$/ do |record_name, record_conditions, table|
+  record_class = record_name_to_class(record_name)
+  record = find_record(record_class, record_conditions)
+  new_table = table.transpose
+  new_table.hashes.each do |hash|
+    hash.each_pair do |key, value|
+      record.send(key).should == instance_eval(value)
+    end
+  end
+end
+
 
 =begin
 class_name = model_name.gsub(' ', '_').singularize

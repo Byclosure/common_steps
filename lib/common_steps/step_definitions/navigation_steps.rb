@@ -24,15 +24,19 @@ When /^I go to the list page of (\w+)$/ do |record_name|
   When "I go to \"/#{path}\""
 end
 
-When /^I go to the edit page of (\w+) with (.*)$/ do |record_name, record_conditions|
+Given /^I am on the edit page of the (\w+) with (a|an) (.*)$/ do |record_name, _, record_conditions|
+  When "I go to the edit page of the #{record_name} with a #{record_conditions}"
+end
+
+When /^I go to the edit page of the (\w+) with (a|an) (.*)$/ do |record_name, _, record_conditions|
   record_class = record_name_to_class(record_name)
   record = find_record(record_class, record_conditions)
   When "I go to \"/#{record_class_to_path(record_class)}/#{record.id}/edit\""
 end
 
-When /^I go to the show page of (\w+) with (.*)$/ do |record_name|
+When /^I go to the show page of the (\w+) with (a|an) (.*)$/ do |record_name, _, record_conditions|
   record_class = record_name_to_class(record_name)
-  record = record_find(record_class, record_conditions)
+  record = find_record(record_class, record_conditions)
   When "I go to \"/#{record_class_to_path(record_class)}/#{record.id}\""
 end
 
@@ -44,9 +48,17 @@ Then /^I should be on "([^\"]*)"$/ do |page_name|
   URI.parse(current_url).path.should == page_name
 end
 
-Then /^I should be on the show page of (\w+) with (.*)$/ do |record_name, record_conditions|
+Then /^I should be on the show page of the (\w+) with (a|an) (.*)$/ do |record_name, _,record_conditions|
   record_class = record_name_to_class(record_name)
   record = find_record(record_class, record_conditions)
   path = "/#{record_class_to_path(record_class)}/#{record.id}"
   URI.parse(current_url).path.should match(/#{path}/)
 end
+
+Then /^I should be on the edit page of the (\w+) with (a|an) (.*)$/ do |record_name, _,record_conditions|
+  record_class = record_name_to_class(record_name)
+  record = find_record(record_class, record_conditions)
+  path = "/#{record_class_to_path(record_class)}/#{record.id}"
+  URI.parse(current_url).path.should match(/#{path}/)
+end
+

@@ -17,12 +17,23 @@ Then /^there should be (\w+) (\w+)$/ do |count_str, record_name|
 end
 
 Given /^the following (\w+):?$/ do |record_name, table|
-  record_table = recordize!(table)
+  recordize!(record_name, table)
   factory_name = record_singular_name(record_name)
-  record_table.hashes.each do |hash|
+  table.hashes.each do |hash|
     Factory(factory_name, hash)
   end
 end
+
+Then /^I should see the following (\w+) in order$/ do |record_name, table|
+  class_name = record_name_to_class(record_name)
+  actual_table = table.headers.map {|h| Array(h)}
+  #TODO
+  class_name.find(:all).each do |record|
+    actual_table << [record.name]
+  end
+  table.diff!(actual_table)
+end
+
 
 =begin
 class_name = model_name.gsub(' ', '_').singularize

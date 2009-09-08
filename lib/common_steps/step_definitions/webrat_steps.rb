@@ -1,9 +1,9 @@
 # Commonly used webrat steps
 # http://github.com/brynary/webrat
 
-Given /^I am on (.+)$/ do |page_name|
-  visit path_to(page_name)
-end
+#Given /^I am on (.+)$/ do |page_name|
+#  visit path_to(page_name)
+#end
 
 When /^I press "([^\"]*)"$/ do |button|
   click_button(button)
@@ -106,9 +106,13 @@ Then /^the "([^\"]*)" checkbox should be checked$/ do |label|
   field_labeled(label).should be_checked
 end
 
-Then /^I should be on (.+)$/ do |page_name|
-  URI.parse(current_url).path.should == path_to(page_name)
+Then /^the "([^\"]*)" checkbox should not be checked$/ do |label|
+  field_labeled(label).should_not be_checked
 end
+
+#Then /^I should be on (.+)$/ do |page_name|
+#  URI.parse(current_url).path.should == path_to(page_name)
+#end
 
 Then /^the "([^\"]*)" field should be "([^\"]*)"$/ do |name, value|
   response.should have_tag('form')

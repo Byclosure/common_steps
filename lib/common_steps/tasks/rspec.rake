@@ -30,9 +30,11 @@ MSG
   end
 end
 
-Rake.application.instance_variable_get('@tasks').delete('default')
+# Rake.application.instance_variable_get('@tasks').delete('default')
 
-spec_prereq = ["db:test:prepare", "db:test:load_contents"]
+spec_prereq = ["db:test:prepare", "db:test:load_contents"].inject([]) do |prereq, task_name|
+  prereq << task_name if Rake::Task.task_defined?(task_name)
+end
 
 task :default => :spec
 task :stats => "spec:statsetup"

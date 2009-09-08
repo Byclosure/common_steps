@@ -1,5 +1,7 @@
 desc "Run all features"
-task :features => ['db:test:prepare', "features:all"]
+task :features => 'db:test:prepare' if ::Rake::Task.task_defines?("db:test:prepare")
+task :features => "features:all"
+
 require 'cucumber/rake/task' #I have to add this -mischa
 
 namespace :features do

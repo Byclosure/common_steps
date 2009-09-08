@@ -1,0 +1,20 @@
+= common_steps
+
+* http://github.com/Byclosure/common_steps
+
+== Description
+
+some common cucumber step definitions
+
+== Usage
+
+  sudo gem install Byclosure-common_steps
+
+== Authors
+
+- Maintained by {Vasco Silva}[mailto:vasco@byclosure.com]
+
+== License
+
+Copyright (c) 2009 Byclosure.
+See MIT-LICENSE.txt in this directory.

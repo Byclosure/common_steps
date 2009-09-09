@@ -12,7 +12,7 @@ Some common cucumber step definitions, rake tasks, and rspec matchers.
 
 == Authors
 
-- Maintained by {Vasco Silva}[mailto:vasco@byclosure.com]
+- Maintained by {Vasco}[mailto:vasco@byclosure.com]
 
 == License
 

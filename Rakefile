@@ -1,7 +1,7 @@
 require 'rubygems'
 require "rake/gempackagetask"
 require "rake/clean"
-
+ 
 Dir['tasks/**/*.rake'].each { |rake| load rake }
 task :default => :spec
 
@@ -23,3 +23,4 @@ begin
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
+

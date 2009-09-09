@@ -1,3 +1,5 @@
+require "activesupport"
+
 Dir[File.dirname(__FILE__) + "/helpers/*.rb"].each do |filename|
   require filename
   module_name = filename.chomp(".rb").classify.demodulize

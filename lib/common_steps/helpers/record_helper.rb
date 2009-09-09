@@ -1,11 +1,10 @@
 module RecordHelper
-  def record_singular_name(*record_names)
-    record_name = record_names.inject("") {|name, rn| name + rn }
-    record_name.gsub(' ', '_').singularize
+  def record_singular_name(record_name)
+    record_name.gsub('_', ' ').downcase.singularize
   end
   
   def record_name_to_class(record_name)
-    klass_name = record_singular_name(record_name).classify
+    klass_name = record_singular_name(record_name).gsub(/\s/, "_").classify
     klass = klass_name.constantize
     klass.nil? ? raise("Couldn't found any class for record with name `#{record_name}', tried with `#{klass_name}'") : klass
   end
@@ -44,20 +43,20 @@ module RecordHelper
     end
   end
   
-  # TODO refact!
-  def conditions_from_str(record_class, conditions_str)
+  def conditions_from_str(conditions_str)
     record_conds = conditions_str.gsub(", and", ",").gsub(" and", ",").split(", ")
     conds = record_conds.map {|rc| rc.gsub(" => ", " of ").split(" of ") }
+    debugger
     conds.inject({}) {|base, (attr, value_str)| base[attr] = instance_eval(value_str); base}
   end
 
   def find_record(record_class, record_conditions)
-    conditions = conditions_from_str(record_class, record_conditions)
+    conditions = conditions_from_str(record_conditions)
     record = record_class.find(:first, :conditions => conditions)
     record.nil? ? raise("Couldn't found any record for `#{record_class}' with conditions: `#{conditions.inspect}'") : record
   end
   
   def record_class_to_path(record_class)
-    record_class.name.underscore.pluralize
+    "/#{record_class.name.underscore.pluralize}"
   end
 end

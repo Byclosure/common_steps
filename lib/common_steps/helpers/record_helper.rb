@@ -46,7 +46,6 @@ module RecordHelper
   def conditions_from_str(conditions_str)
     record_conds = conditions_str.gsub(", and", ",").gsub(" and", ",").split(", ")
     conds = record_conds.map {|rc| rc.gsub(" => ", " of ").split(" of ") }
-    debugger
     conds.inject({}) {|base, (attr, value_str)| base[attr] = instance_eval(value_str); base}
   end
 

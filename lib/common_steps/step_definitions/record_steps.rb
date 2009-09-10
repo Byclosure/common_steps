@@ -1,6 +1,6 @@
 Given /^there (is|are) (\w+) (\w+) with a (.*)$/ do |_, count_str, record_name, record_conditions|
   singular_record_name = record_singular_name(record_name)
-  conditions = conditions_from_str(record_name_to_class(record_name), record_conditions)
+  conditions = conditions_from_str(record_conditions)
   num = str_to_num(count_str)
   num.times { Factory(singular_record_name, conditions) }
 end
@@ -22,6 +22,13 @@ Given /^the following (\w+):?$/ do |record_name, table|
   table.hashes.each do |hash|
     Factory(singular_record_name, hash)
   end
+end
+
+Then /^there should be (\w+) (\w+) with a (.*)$/ do |count_str, record_name, record_conditions|
+  class_name = record_name_to_class(record_name)
+  conditions = conditions_from_str(record_conditions)
+  num = str_to_num(count_str)
+  class_name.count(:conditions => conditions).should == num
 end
 
 Then /^there should be the following (\w+):?$/ do |record_name, table|

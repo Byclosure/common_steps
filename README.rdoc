@@ -1,0 +1,21 @@
+= common_steps
+
+* http://github.com/Byclosure/common_steps
+
+== Description
+
+Some common cucumber step definitions, rake tasks, and rspec matchers.
+
+== Usage
+
+  sudo gem install Byclosure-common_steps
+
+== Authors
+
+- Maintained by {Vasco}[mailto:vasco@byclosure.com]
+
+== License
+
+Copyright (c) 2009 Byclosure.
+See MIT-LICENSE.txt in this directory.
+

@@ -1,6 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require File.expand_path(File.dirname(__FILE__) + '/../common_steps_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../common_steps_helper')
 require "common_steps/helpers/record_helper"
 
 # In order to use features without bugs

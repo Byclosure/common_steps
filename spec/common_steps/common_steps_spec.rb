@@ -9,15 +9,15 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
   before do
     #record_steps.rb is loaded
     @cucumber_table = Cucumber::Ast::Table.new(
-      [['attr_1', 'attr_2', 'attr_3', 'attr_4', 'attr_5', 'attr_6', 'attr_7', 'attr_8', 'attr_9', 'attr_10', 'attr_11'],
-        ['cont_1', 'cont_2', 'cont_3', 'cont_4', 'cont_5', 'cont_6', 'cont_7', 'cont_8', 'cont_9', 'cont_10', 'cont_11'],
-        ['cont_1a', 'cont_2a', 'cont_3a', 'cont_4a', 'cont_5a', 'cont_6a', 'cont_7a', 'cont_8a', 'cont_9a', 'cont_10a', 'cont_11a']])
+      [['name', 'age'],
+        ['John', '12'],
+        ['Mary', '34']])
     @step_mother = Cucumber::Cli::Main.step_mother
     @step_mother.load_code_file(File.expand_path(File.dirname(__FILE__) + "/../../lib/common_steps/step_definitions/record_steps.rb"))
     @dsl = Object.new
     @dsl.extend(Cucumber::RbSupport::RbDsl)
-    @step_mother.load_programming_language('rb').begin_rb_scenario
     @dsl.World(RecordHelper)
+    @step_mother.load_programming_language('rb').begin_rb_scenario
   end
   
   
@@ -42,10 +42,6 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
   
   
   it "calling 'Given the following artists' should be true" do
-    
-  end
-  
-  it "there should be" do
     
   end
   

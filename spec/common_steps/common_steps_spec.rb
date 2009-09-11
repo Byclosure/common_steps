@@ -29,6 +29,16 @@ module StepMotherHelper
     artist_should_be(hash, step_string)
   end
   
+  def artists_in_table_should_be(table, step_string)    
+    it "should contain the table #{table.hashes.inspect} when I call '#{step_string}" do  
+      m = @step_mother.step_match('the following artists')
+      m.invoke(table)
+      table.hashes.each do |hash|
+        Artist.exists?(hash).should be_true
+      end
+    end
+  end
+  
 end
 
 # In order to use features without bugs
@@ -38,11 +48,6 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
   extend StepMotherHelper
   
   before do
-    @empty_table = Cucumber::Ast::Table.new([])
-    @cucumber_table = Cucumber::Ast::Table.new(
-      [['name', 'age'],
-        ['John', '12'],
-        ['Mary', '34']])
     @step_mother = Cucumber::Cli::Main.step_mother
     @step_mother.load_code_file(File.expand_path(File.dirname(__FILE__) + "/../../lib/common_steps/step_definitions/record_steps.rb"))
     @dsl = Object.new
@@ -147,7 +152,6 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
     
     artist_should_count 0, 'there should be 0 artists'
     artist_should_count 0, 'there should be no artists'
-
   end
   
   describe "StepMatch[there should be (\w+) (\w+)] invocation with 1 artist, with 1 artist" do
@@ -163,16 +167,16 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
    
   describe "'Given the following artists' invoked with table of attributes" do
     before do
+      @cucumber_table = Cucumber::Ast::Table.new(
+        [['name', 'age'],
+          ['John', '12'],
+          ['Mary', '34']])
       Artist.destroy_all # there are no artist - FIXME I shouldn't have to care about this
     end
     
-    it "should create the records" do
-      m = @step_mother.step_match('the following artists')
-      m.invoke(@cucumber_table)
-      @cucumber_table.hashes.each do |hash|
-        Artist.exists?(hash).should be_true
-      end
-    end
+    artists_in_table_should_be @cucumber_table, 'the following artists'
+    
+
   end
 
 end

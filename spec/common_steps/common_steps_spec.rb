@@ -34,11 +34,10 @@ module StepMotherHelper
       m = @step_mother.step_match('the following artists')
       m.invoke(table)
       table.hashes.each do |hash|
-        Artist.exists?(hash).should be_true
+        Artist.should exist_given(hash)
       end
     end
   end
-  
 end
 
 # In order to use features without bugs
@@ -58,15 +57,6 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
   
   # Specs from record_steps.rb
   #
-  # there (is|are) (\w+) (\w+) with a (.*)
-  step_should_match 'there are 0 artists with a name of "John"'
-  step_should_match 'there are no artists with a name of "John"'
-  step_should_match 'there is 1 artist with a name of "John"'
-  step_should_match 'there is an artist with a name of "John"'
-  step_should_match 'there is a artist with a name of "John"'
-  step_should_match 'there are 3 artists with a name of "John"'
-  step_should_match 'there are 1 artists with a name of "John", an age of 32 and a country of "Portugal"'
-    
   # there (is|are) (\w+) (\w*)
   step_should_match 'there are no artists'
   step_should_match 'there is no artists'
@@ -76,7 +66,16 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
   step_should_match 'there is an artist'
   step_should_match 'there is 1 artist'
   step_should_match 'there are 3 artists'
-    
+
+  # there (is|are) (\w+) (\w+) with a (.*)
+  step_should_match 'there are 0 artists with a name of "John"'
+  step_should_match 'there are no artists with a name of "John"'
+  step_should_match 'there is 1 artist with a name of "John"'
+  step_should_match 'there is an artist with a name of "John"'
+  step_should_match 'there is a artist with a name of "John"'
+  step_should_match 'there are 3 artists with a name of "John"'
+  step_should_match 'there are 1 artists with a name of "John", an age of 32 and a country of "Portugal"'
+      
   # there should be (\w+) (\w+)
   step_should_match 'there should be no artists'
   step_should_match 'there should be no artists'
@@ -87,7 +86,6 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
   step_should_match 'there should be 1 artist'
   step_should_match 'there should be 3 artists'
 
-  
   #the following (\w+):
   step_should_match 'the following artists'
   step_should_match 'the following artists:'
@@ -131,7 +129,6 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
     #artist_should_count_and_be(1, {:name => "John", :age => 32}, 'there are 1 artists with a name of "John", and age of 32')
   end
   
-  
   describe "StepMatch[there (is|are) (\w+) (.*)] invocation, with no artists" do
     before do
       Artist.destroy_all # there are no artist - FIXME I shouldn't have to care about this
@@ -165,18 +162,101 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
     artist_should_count 1, 'there should be a artist'   
   end
    
-  describe "'Given the following artists' invoked with table of attributes" do
+  describe "StepMatch[Given the following artists] invoked with table of attributes" do
     before do
-      @cucumber_table = Cucumber::Ast::Table.new(
-        [['name', 'age'],
-          ['John', '12'],
-          ['Mary', '34']])
       Artist.destroy_all # there are no artist - FIXME I shouldn't have to care about this
     end
     
+    @cucumber_table = Cucumber::Ast::Table.new(
+      [['name', 'age'],
+        ['John', '12'],
+        ['Mary', '34']])
     artists_in_table_should_be @cucumber_table, 'the following artists'
+  end
+
+  describe "StepMatch[there should be (\w+) (\w+) with a (.*)] with no artists" do
+    before do
+      Artist.destroy_all # there are no artist - FIXME I shouldn't have to care about this
+    end
+    
+    artist_should_count(0, 'there should be 0 artists with a name of "John"')
+    artist_should_count(0, 'there should be no artists with a name of "John"')
+  end
+  
+  describe "StepMatch[there should be (\w+) (\w+) with a (.*)] with 1 artist" do
+    before do
+      Artist.destroy_all # there are no artist - FIXME I shouldn't have to care about this
+      Artist.create!(:name => "John", :age => 32)
+    end
+
+    it "should not raise error when I invoke StepMatch[there should be 1 artist with a name of 'John'] with [{:name => 'John', :age => 12}, {:name => 'Mary', :age => 34}]" do
+      lambda do
+        m = @step_mother.step_match('there should be 1 artist with a name of "John"')
+        m.invoke(nil)
+      end.should_not raise_error 
+    end
+    
+    it "should not raise error when I invoke StepMatch['there should be 1 artist with a name of \"John\"'] with [{:name => 'John', :age => 12}, {:name => 'Mary', :age => 34}]" do
+      lambda do
+        m = @step_mother.step_match('there should be an artist with a name of "John"')
+        m.invoke(nil)
+      end.should_not raise_error 
+    end
+
+    it "should not raise error when I invoke StepMatch[''there should be a artist with a name of \"John\"''] with [{:name => 'John', :age => 12}, {:name => 'Mary', :age => 34}]" do
+      lambda do
+        m = @step_mother.step_match('there should be a artist with a name of "John"')
+        m.invoke(nil)
+      end.should_not raise_error 
+    end
+    
+    it "should not raise error when I invoke StepMatch['there should be 1 artists with a name of \"John\", and age of 32'] with [{:name => 'John', :age => 12}, {:name => 'Mary', :age => 34}]" do
+      lambda do
+        m = @step_mother.step_match('there should be 1 artists with a name of "John", and age of 32')
+        m.invoke(nil)
+      end.should_not raise_error 
+    end
+  end
+    
+  describe "where there are 2 artists [{:name => 'John', :age => 12}, {:name => 'Mary', :age => 34}]" do
+    before do
+      Artist.destroy_all # there are no artist - FIXME I shouldn't have to care about this
+      Artist.create!(:name => "John", :age => 12)
+      Artist.create!(:name => "Mary", :age => 34)
+    end
+    
+    it "should not raise error when I invoke StepMatch[there should be the following (\w+):?] with [{:name => 'John', :age => 12}, {:name => 'Mary', :age => 34}]" do
+      lambda do
+        m = @step_mother.step_match("there should be the following artists")
+        m.invoke(Cucumber::Ast::Table.new(
+            [['name', 'age'],
+              ['John', '12'],
+              ['Mary', '34']]))
+      end.should_not raise_error 
+    end
+    
+    it "should raise error when I invoke StepMatch[there should be the following (\w+):?] with [{:name => 'Ann', :age => 12}]" do
+      lambda do
+        m = @step_mother.step_match("there should be the following artists")
+        m.invoke(Cucumber::Ast::Table.new(
+            [['name', 'age'],
+              ['Ann', '12']]))
+      end.should raise_error
+    end
+
+    it "should raise error when I invoke StepMatch[there should be the following (\w+):?] with [{:name => 'John', :age => 12}, {:name => 'Mary', :age => 34}, {:name => 'Andrea', :age => 22}]" do
+      lambda do
+        m = @step_mother.step_match("there should be the following artists")
+        m.invoke(Cucumber::Ast::Table.new(
+            [['name', 'age'],
+              ['John', '12'],
+              ['Mary', '34'],
+              ['Andrea', '22']]))
+      end.should raise_error      
+    end
     
 
   end
 
+  
 end

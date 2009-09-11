@@ -10,11 +10,13 @@ module StepMotherHelper
   #    it { @step_mother.should_not step_match(step_string) }  
   #  end
   
-  def artist_should_count(n)
+  
+  def artist_should_count(n, opt_step_string=nil)
     is_or_are = n == 1 ? "is" : "are"
     plural_or_singular = n == 1 ? "" : "s" 
-    it "should count #{n} Artist#{plural_or_singular} when I call 'there #{is_or_are} #{n} artist#{plural_or_singular}'" do
-      m = @step_mother.step_match("there #{is_or_are} #{n} artist#{plural_or_singular}")
+    step_string = opt_step_string || "there #{is_or_are} #{n} artist#{plural_or_singular}"
+    it "should count #{n} Artist#{plural_or_singular} when I call '#{step_string}'" do
+      m = @step_mother.step_match(step_string)
       m.invoke(nil)
       Artist.should count(n)
     end
@@ -53,9 +55,13 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
       Artist.destroy_all # there are no artist - FIXME I shouldn't have to care about this
     end
     
-    artist_should_count(0)
-    artist_should_count(1)
-    artist_should_count(3)    
+    artist_should_count 0
+    artist_should_count 1
+    artist_should_count 3
+    
+    artist_should_count 0, 'there are no artists'
+    artist_should_count 1, 'there is an artist'
+    artist_should_count 1, 'there is a artist'
   end
   
   

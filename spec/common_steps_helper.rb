@@ -25,5 +25,5 @@ require 'factory_girl'
 class Artist < ActiveRecord::Base
 end
 
-Factory.define :artist do |f|  
+Factory.define :artist do |f|
 end

@@ -52,3 +52,23 @@ Spec::Matchers.define :count do |num|
     "count should be #{num}"
   end
 end
+
+Spec::Matchers.define :exist_given do |hash|
+  match do |@ar_class|
+    @ar_class.exists?(hash)
+  end
+  
+  failure_message_for_should do |ar_class|
+    "expected an instance of #{ar_class} to exist, when #{ar_class}.exists?(#{hash.inspect})\n" +
+      "Counting a total of: #{ar_class.count} #{ar_class}"
+  end
+  
+  failure_message_for_should_not do |ar_class|
+    "expected an instance of #{ar_class} _not_ to exist, when #{ar_class}.exists?(#{hash.inspect})\n" +
+      "Counting a total of: #{ar_class.count} #{ar_class}"
+  end
+
+  description do
+    "should exist at least one instance of #{@ar_class} with the attributes #{hash.inspect}"
+  end
+end

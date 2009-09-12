@@ -1,0 +1,109 @@
+grammar Conditions
+  rule conditions
+    condition [\s]* "," [\s]* "and" [\s]+ conditions
+    /
+    condition [\s]+ "and" [\s]+ conditions
+    /
+    condition [\s]* "," [\s]* conditions
+    /
+    condition
+  end
+  
+  rule condition
+    belonging_to ([\s]* "and" [\s]*)? conditions
+    /
+    of_attribute_name [\s]+ attribute_value
+    /
+    attribute_name [\s]* "=>" [\s]* attribute_value
+  end
+  
+  rule of_attribute_name
+    name [\s]+ of_attribute_name
+    /
+    (!of name) [\s]+ of
+    /
+    of [\s]+ of
+  end
+  
+  rule belonging_to_name
+    "belonging" [\s]+ "to"
+  end
+  
+  rule name_with
+    name [\s]+ name_with
+    /
+    (!with name) [\s]+ with
+    /
+    with [\s]+ with
+  end
+  
+  rule of
+    "of"
+  end
+  
+  rule with
+    "with"
+  end
+  
+  rule attribute_name
+    names
+  end
+  
+  rule name
+    [\w]+
+  end
+  
+  rule names
+    name [\s]+ names
+    /
+    name
+  end
+  
+  rule record_name
+    names
+  end
+  
+  rule attribute_value
+    string / symbol / boolean / nil / number
+  end
+  
+  rule belonging_to
+     "belonging" [\s]+ "to" [\s]+ name_with [\s]+ ("an" / "a") [\s]+ conditions belonging_to_terminator*
+  end
+  
+  rule belonging_to_terminator
+    ";"
+  end
+  
+  rule string
+    "\"" [^\"]* "\""
+    /
+    "'" [^\']* "'"
+  end
+  
+  rule symbol
+    ":" [^\s]*
+  end
+  
+  rule boolean
+    "true" / "false"
+  end
+  
+  rule nil
+    "nil"
+  end
+  
+  rule number
+    float / integer
+  end
+  
+  rule integer
+    [\d]+
+  end
+  
+  rule float
+    "." integer
+    /
+    integer "." integer
+  end
+end

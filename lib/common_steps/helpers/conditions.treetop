@@ -10,11 +10,11 @@ grammar Conditions
   end
   
   rule condition
-    belonging_to ([\s]* "and" [\s]*)? conditions
+    belonging_to ([\s]* "and" [\s]*)? conditions <BelongingToCondition>
     /
-    of_attribute_name [\s]+ attribute_value
+    attribute_name [\s]* "=>" [\s]* attribute_value <ArrowCondition>
     /
-    attribute_name [\s]* "=>" [\s]* attribute_value
+    of_attribute_name [\s]+ attribute_value <OfCondition>
   end
   
   rule of_attribute_name
@@ -25,24 +25,20 @@ grammar Conditions
     of [\s]+ of
   end
   
-  rule belonging_to_name
-    "belonging" [\s]+ "to"
-  end
-  
-  rule name_with
-    name [\s]+ name_with
+  rule names_with
+    name [\s]+ names_with
     /
     (!with name) [\s]+ with
     /
-    with [\s]+ with
-  end
-  
-  rule of
-    "of"
+    with with
   end
   
   rule with
     "with"
+  end
+  
+  rule of
+    "of"
   end
   
   rule attribute_name
@@ -59,16 +55,20 @@ grammar Conditions
     name
   end
   
-  rule record_name
-    names
-  end
-  
   rule attribute_value
-    string / symbol / boolean / nil / number
+    string
+    /
+    symbol
+    /
+    boolean
+    /
+    nil
+    /
+    number
   end
   
   rule belonging_to
-     "belonging" [\s]+ "to" [\s]+ name_with [\s]+ ("an" / "a") [\s]+ conditions belonging_to_terminator*
+     "belonging" [\s]+ "to" [\s]+ names_with [\s]+ ("an" / "a") [\s]+ conditions belonging_to_terminator*
   end
   
   rule belonging_to_terminator
@@ -86,7 +86,9 @@ grammar Conditions
   end
   
   rule boolean
-    "true" / "false"
+    "true"
+    /
+    "false"
   end
   
   rule nil
@@ -94,7 +96,9 @@ grammar Conditions
   end
   
   rule number
-    float / integer
+    float
+    /
+    integer
   end
   
   rule integer

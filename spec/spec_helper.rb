@@ -4,33 +4,6 @@ require 'spec'
 require 'spec/autorun'
 require 'spec/mocks'
 
-module DhakaParserMatchers
-  class ParserMatcher
-    def initialize(lexer, input_string)
-      @lexer, @input_string = lexer, input_string
-    end
-    def matches?(parser)
-      debugger
-      @parser = parser
-      result = @parser.parse(@lexer.lex(@input_string))
-      !result.has_error?
-    end
-    def failure_message_for_should
-      "expected #{@parser} to parse '#{@input_string}' using #{@lexer}"
-    end
-    def failure_message_for_should_not
-      "expected #{@parser} not to parse '#{@input_string}' using #{@lexer}"
-    end
-    def description
-      "parse '#{@input_string}'"
-    end
-  end
-  
-  def dhaka_parse(lexer, input_string)
-    ParserMatcher.new(lexer, input_string)
-  end
-end
-
 module TreetopParserMatchers
   class ParserMatcher
     def initialize(input_string)
@@ -60,6 +33,28 @@ module TreetopParserMatchers
     ParserMatcher.new(input_string)
   end
 end
+
+=begin
+Spec::Matchers.define :instance_of do |klass|
+  match do |syntax_node|
+    syntax_node.class <= klass
+  end
+  
+  failure_message_for_should do |syntax_node|
+    "expected that #{syntax_node} class would be #{klass} (instead of #{syntax_node.class})#"
+  end
+  
+  failure_message_for_should_not do |syntax_node|
+    "expected that #{syntax_node} class would not be #{klass} (instead of #{syntax_node.class})"
+  end
+
+  description do
+    "be an instance of #{klass}"
+  end
+end
+=end
+
+
 
 Spec::Runner.configure do |config|
 end

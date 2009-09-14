@@ -2,7 +2,7 @@ module RecordHelper
   def record_singular_name(record_name)
     record_name.gsub('_', ' ').downcase.singularize
   end
-  
+
   def record_name_to_class(record_name)
     klass_name = record_singular_name(record_name).gsub(/\s/, "_").classify
     klass = klass_name.constantize
@@ -43,9 +43,53 @@ module RecordHelper
     end
   end
   
-  def conditions_from_str(conditions_str)
+  # I should go to the show page of paiting with a name of "Bello", and belonging to an artist with a name "foo"
+=begin
+  def attr_from_name(class_record, attr_name)
+    case attr_name
+    when /^belonging to (a|an) (\w+) with (a|an) (.*)$/
+      _, association_str, _, conditions_str = $~.captures
+      association_name = association_str.gsub(/\s/, "_").downcase.to_sym
+      association = reflect_on_association(association_name)
+  
+      raise("Association `#{association_name}' not found on #{record_class}") if association.nil?
+      raise("Association `#{association_name}' isn't belongs_to(is a #{association.macro})") unless association.belongs_to?
+      
+      association
+      association_record = find_record(association.klass, conditions_str)
+      
+    else
+      attr_name
+    end
+    
+    if record_class.columns_hash[attr_name] # record_class.has_column?(attr_name)
+    elsif
+    end
+    if column_attr.nil? # artist_name case 
+      association = record_class.reflect_on_all_associations.detect {|a| header =~ /^#{a.name}/ }
+      raise("Association: `#{header}' not found on #{record_class}") if association.nil?
+      
+      find_attrs = header.match(/^#{association.name}(.*)$/)[1]
+      association_class = association.klass
+      table.map_column!(header) { |value| association_class.send("find_by#{find_attrs}", value) }
+    else
+    end
+  end
+=end
+  
+  def value_from_str(value_str)
+    instance_eval(value_str)
+  end
+  
+  def conditions_from_str(class_record, conditions_str) # make a parser
     record_conds = conditions_str.gsub(", and", ",").gsub(" and", ",").split(", ")
     conds = record_conds.map {|rc| rc.gsub(" => ", " of ").split(" of ") }
+
+#    conds.inject({}) do |base, (attr_name, value_str)|
+#      base[attr_from_name(class_record, attr_name)] = value_from_str(value_str)
+#      base
+#    end
+
     conds.inject({}) {|base, (attr, value_str)| base[attr] = instance_eval(value_str); base}
   end
 

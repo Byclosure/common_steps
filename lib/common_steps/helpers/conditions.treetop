@@ -1,0 +1,113 @@
+grammar Conditions
+  rule conditions
+    condition [\s]* "," [\s]* "and" [\s]+ conditions <CommaAndConditions>
+    /
+    condition [\s]+ "and" [\s]+ conditions <AndConditions> # Para não suportar
+    /
+    condition [\s]* "," [\s]* conditions <CommaConditions>
+    /
+    condition
+  end
+  
+  rule condition
+    belonging_to ([\s]* "and" [\s]*)? conditions <BelongingToCondition>
+    /
+    attribute_name [\s]* "=>" [\s]* attribute_value <ArrowCondition>
+    /
+    of_attribute_name [\s]+ attribute_value <OfCondition>
+  end
+  
+  rule of_attribute_name
+    name [\s]+ of_attribute_name
+    /
+    (!of name) [\s]+ of
+    /
+    of [\s]+ of
+  end
+  
+  rule names_with
+    name [\s]+ names_with
+    /
+    (!with name) [\s]+ with
+    /
+    with with
+  end
+  
+  rule with
+    "with"
+  end
+  
+  rule of
+    "of"
+  end
+  
+  rule attribute_name
+    names
+  end
+  
+  rule name
+    [\w]+
+  end
+  
+  rule names
+    name [\s]+ names
+    /
+    name
+  end
+  
+  rule attribute_value
+    string
+    /
+    symbol
+    /
+    boolean
+    /
+    nil
+    /
+    number
+  end
+  
+  rule belonging_to
+     "belonging" [\s]+ "to" [\s]+ names_with [\s]+ ("an" / "a") [\s]+ conditions belonging_to_terminator*
+  end
+  
+  rule belonging_to_terminator
+    ";"
+  end
+  
+  rule string
+    "\"" [^\"]* "\""
+    /
+    "'" [^\']* "'"
+  end
+  
+  rule symbol
+    ":" [^\s]*
+  end
+  
+  rule boolean
+    "true"
+    /
+    "false"
+  end
+  
+  rule nil
+    "nil"
+  end
+  
+  rule number
+    float
+    /
+    integer
+  end
+  
+  rule integer
+    [\d]+
+  end
+  
+  rule float
+    "." integer
+    /
+    integer "." integer
+  end
+end

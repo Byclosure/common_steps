@@ -1,17 +1,21 @@
 require "treetop"
 
-module Conditions
-  def conditions
+class SplitConditions < Treetop::Runtime::SyntaxNode
+  def splited_conditions
     elements.inject([]) do |conditions, element|
-      case conditions
-      when Conditions
-        conditions.push(*element.conditions)
+      case element
+      when SplitConditions
+        conditions.push(*element.splited_conditions)
       when Condition
-        condition << element
+        conditions << element
       end
+      conditions
     end
   end
 end
+class CommaAndConditions < SplitConditions; end
+class CommaConditions < SplitConditions; end
+class AndConditions < SplitConditions; end
 
 class Condition < Treetop::Runtime::SyntaxNode; end
 class BelongingToCondition < Condition; end
@@ -19,20 +23,3 @@ class OfCondition < Condition; end
 class ArrowCondition < Condition; end
 
 Treetop.load File.expand_path(File.dirname(__FILE__) + "/conditions.treetop")
-
-
-
-class Treetop::Runtime::SyntaxNode
-  def node_name
-    extension_modules[0].name rescue "XXX"
-  end
-  
-  def path(indent=0)
-    if nonterminal?
-      elements.each do |x|
-        puts(" " * indent + "#{node_name}")
-        x.path(indent + 2)
-      end
-    end
-  end
-end

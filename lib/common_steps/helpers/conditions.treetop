@@ -1,10 +1,10 @@
 grammar Conditions
   rule conditions
-    condition [\s]* "," [\s]* "and" [\s]+ conditions
+    condition [\s]* "," [\s]* "and" [\s]+ conditions <CommaAndConditions>
     /
-    condition [\s]+ "and" [\s]+ conditions
+    condition [\s]+ "and" [\s]+ conditions <AndConditions> # Para não suportar
     /
-    condition [\s]* "," [\s]* conditions
+    condition [\s]* "," [\s]* conditions <CommaConditions>
     /
     condition
   end

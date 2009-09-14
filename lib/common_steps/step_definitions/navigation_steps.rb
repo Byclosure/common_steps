@@ -62,3 +62,6 @@ Then /^I should be on the edit page of the (\w+) with (a|an) (.*)$/ do |record_n
   URI.parse(current_url).path.should match(/#{path}/)
 end
 
+Then /the field with label "([^\"]*)" should contain "([^\"]*)"/ do |field_name, content|
+  field_labeled(field_name).value.should == content
+end

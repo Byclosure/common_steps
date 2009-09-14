@@ -117,3 +117,4 @@ end
 Then /^the "([^\"]*)" field should be "([^\"]*)"$/ do |name, value|
   response.should have_tag('form')
 end
+

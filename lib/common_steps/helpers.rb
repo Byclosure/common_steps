@@ -1,4 +1,5 @@
 require "activesupport"
+
 common_step_mods = []
 
 Dir[File.dirname(__FILE__) + "/helpers/*.rb"].each do |filename|

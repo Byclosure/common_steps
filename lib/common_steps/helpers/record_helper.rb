@@ -81,7 +81,7 @@ module RecordHelper
     instance_eval(value_str)
   end
   
-  def conditions_from_str(class_record, conditions_str) # make a parser
+  def conditions_from_str(conditions_str)
     record_conds = conditions_str.gsub(", and", ",").gsub(" and", ",").split(", ")
     conds = record_conds.map {|rc| rc.gsub(" => ", " of ").split(" of ") }
 

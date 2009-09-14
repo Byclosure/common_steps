@@ -189,28 +189,28 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
       Artist.create!(:name => "John", :age => 32)
     end
 
-    it "should not raise error when I invoke StepMatch[there should be 1 artist with a name of 'John'] with [{:name => 'John', :age => 12}, {:name => 'Mary', :age => 34}]" do
+    it "should not raise error when I invoke StepMatch[there should be 1 artist with a name of 'John']" do
       lambda do
         m = @step_mother.step_match('there should be 1 artist with a name of "John"')
         m.invoke(nil)
       end.should_not raise_error 
     end
     
-    it "should not raise error when I invoke StepMatch['there should be 1 artist with a name of \"John\"'] with [{:name => 'John', :age => 12}, {:name => 'Mary', :age => 34}]" do
+    it "should not raise error when I invoke StepMatch['there should be an artist with a name of \"John\"']" do
       lambda do
         m = @step_mother.step_match('there should be an artist with a name of "John"')
         m.invoke(nil)
       end.should_not raise_error 
     end
 
-    it "should not raise error when I invoke StepMatch[''there should be a artist with a name of \"John\"''] with [{:name => 'John', :age => 12}, {:name => 'Mary', :age => 34}]" do
+    it "should not raise error when I invoke StepMatch[''there should be a artist with a name of \"John\"'']" do
       lambda do
         m = @step_mother.step_match('there should be a artist with a name of "John"')
         m.invoke(nil)
       end.should_not raise_error 
     end
     
-    it "should not raise error when I invoke StepMatch['there should be 1 artists with a name of \"John\", and age of 32'] with [{:name => 'John', :age => 12}, {:name => 'Mary', :age => 34}]" do
+    it "should not raise error when I invoke StepMatch['there should be 1 artists with a name of \"John\", and age of 32']" do
       lambda do
         m = @step_mother.step_match('there should be 1 artists with a name of "John", and age of 32')
         m.invoke(nil)
@@ -254,9 +254,5 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
               ['Andrea', '22']]))
       end.should raise_error      
     end
-    
-
   end
-
-  
 end

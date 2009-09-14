@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vasco Andrade e Silva", "Duarte Henriques"]
-  s.date = %q{2009-09-14}
+  s.date = %q{2009-09-15}
   s.description = %q{common_steps. Some common cucumber step definitions, rake tasks, and rspec matchers}
   s.email = ["vasco@byclosure.com", "duarte@byclosure.com"]
   s.extra_rdoc_files = [
@@ -28,6 +28,8 @@ Gem::Specification.new do |s|
      "features/support/env.rb",
      "lib/common_steps.rb",
      "lib/common_steps/helpers.rb",
+     "lib/common_steps/helpers/conditions.treetop",
+     "lib/common_steps/helpers/conditions_parser.rb",
      "lib/common_steps/helpers/rake_helper.rb",
      "lib/common_steps/helpers/record_helper.rb",
      "lib/common_steps/matchers/count.rb",
@@ -41,6 +43,7 @@ Gem::Specification.new do |s|
      "lib/common_steps/tasks/cucumber.rake",
      "lib/common_steps/tasks/rspec.rake",
      "spec/common_steps/common_steps_spec.rb",
+     "spec/common_steps/helpers/conditions_parser_spec.rb",
      "spec/common_steps/helpers/record_helper_spec.rb",
      "spec/common_steps_helper.rb",
      "spec/spec.opts",
@@ -60,6 +63,7 @@ Gem::Specification.new do |s|
     "spec/spec_helper.rb",
      "spec/common_steps_helper.rb",
      "spec/common_steps/helpers/record_helper_spec.rb",
+     "spec/common_steps/helpers/conditions_parser_spec.rb",
      "spec/common_steps/common_steps_spec.rb"
   ]
 

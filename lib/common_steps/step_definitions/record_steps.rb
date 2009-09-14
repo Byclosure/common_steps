@@ -1,6 +1,4 @@
 Given /^there (is|are) (\w+) (\w+) with a (.*)$/ do |_, count_str, record_name, record_conditions|
-  require 'ruby-debug'
-  debugger
   singular_record_name = record_singular_name(record_name)
   conditions = conditions_from_str(record_conditions)
   record_name_to_class(record_name).delete_all

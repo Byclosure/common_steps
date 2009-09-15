@@ -1,4 +1,4 @@
-require "activesupport"
+require 'activesupport'
 
 common_step_mods = []
 
@@ -10,4 +10,3 @@ Dir[File.dirname(__FILE__) + "/helpers/*.rb"].each do |filename|
 end
 
 Cucumber::RbSupport::RbDsl.build_rb_world_factory(common_step_mods, nil)
-

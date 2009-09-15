@@ -7,7 +7,7 @@ When /^I go to "([^\"]*)"$/ do |page_name|
 end
 
 When /^I go to the homepage$/ do
-  visit homepage_path
+  visit_homepage
 end
 
 Given /^I am on the new (\w+) page$/ do |record_name|

@@ -1,14 +1,15 @@
 Given /^there (is|are) (\w+) (\w+) with a (.*)$/ do |_, count_str, record_name, record_conditions|
-  factory_name = record_singular_name(record_name)
-  conditions = conditions_from_str(record_name_to_class(record_name), record_conditions)
+  singular_record_name = record_singular_name(record_name)
+  conditions = conditions_from_str(record_conditions)
+  record_name_to_class(record_name).delete_all
   num = str_to_num(count_str)
-  num.times { Factory(factory_name, conditions) }
+  num.times { Factory(singular_record_name, conditions) }
 end
 
 Given /^there (is|are) (\w+) (\w*)$/ do |_, count_str, record_name|
-  factory_name = record_singular_name(record_name)
+  singular_record_name = record_singular_name(record_name)
   num = str_to_num(count_str)
-  num.times { Factory(factory_name) }
+  num.times { Factory(singular_record_name) }
 end
 
 Then /^there should be (\w+) (\w+)$/ do |count_str, record_name|
@@ -18,9 +19,24 @@ end
 
 Given /^the following (\w+):?$/ do |record_name, table|
   recordize!(record_name, table)
-  factory_name = record_singular_name(record_name)
+  singular_record_name = record_singular_name(record_name)
   table.hashes.each do |hash|
-    Factory(factory_name, hash)
+    Factory(singular_record_name, hash)
+  end
+end
+
+Then /^there should be (\w+) (\w+) with a (.*)$/ do |count_str, record_name, record_conditions|
+  class_name = record_name_to_class(record_name)
+  conditions = conditions_from_str(record_conditions)
+  num = str_to_num(count_str)
+  class_name.count(:conditions => conditions).should == num
+end
+
+Then /^there should be the following (\w+):?$/ do |record_name, table|
+  recordize!(record_name, table)
+  class_name = record_name_to_class(record_name)
+  table.hashes.each do |hash|
+    class_name.exists?(hash).should == true # TODO vasco: make a matcher for this
   end
 end
 
@@ -32,17 +48,6 @@ Then /^I should see the following (\w+) in order$/ do |record_name, table|
     actual_table << [record.name]
   end
   table.diff!(actual_table)
-end
-
-Then /^the (\w+) with a (.*) should have the following attributes$/ do |record_name, record_conditions, table|
-  record_class = record_name_to_class(record_name)
-  record = find_record(record_class, record_conditions)
-  new_table = table.transpose
-  new_table.hashes.each do |hash|
-    hash.each_pair do |key, value|
-      record.send(key).should == instance_eval(value)
-    end
-  end
 end
 
 

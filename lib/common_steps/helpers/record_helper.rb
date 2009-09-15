@@ -84,10 +84,13 @@ module RecordHelper
   def conditions_from_str(class_record, conditions_str) # make a parser
     record_conds = conditions_str.gsub(", and", ",").gsub(" and", ",").split(", ")
     conds = record_conds.map {|rc| rc.gsub(" => ", " of ").split(" of ") }
-    conds.inject({}) do |base, (attr_name, value_str)|
-      base[attr_from_name(class_record, attr_name)] = value_from_str(value_str)
-      base
-    end
+
+#    conds.inject({}) do |base, (attr_name, value_str)|
+#      base[attr_from_name(class_record, attr_name)] = value_from_str(value_str)
+#      base
+#    end
+
+    conds.inject({}) {|base, (attr, value_str)| base[attr] = instance_eval(value_str); base}
   end
 
   def find_record(record_class, record_conditions)

@@ -5,6 +5,8 @@ require "rake/clean"
 Dir['tasks/**/*.rake'].each { |rake| load rake }
 task :default => :spec
 
+task :install => :gemspec
+
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|

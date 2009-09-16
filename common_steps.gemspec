@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vasco Andrade e Silva", "Duarte Henriques"]
-  s.date = %q{2009-09-15}
+  s.date = %q{2009-09-16}
   s.description = %q{common_steps. Some common cucumber step definitions, rake tasks, and rspec matchers}
   s.email = ["vasco@byclosure.com", "duarte@byclosure.com"]
   s.extra_rdoc_files = [
@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
      "lib/common_steps/helpers.rb",
      "lib/common_steps/helpers/conditions.treetop",
      "lib/common_steps/helpers/conditions_parser.rb",
+     "lib/common_steps/helpers/navigation_helper.rb",
      "lib/common_steps/helpers/rake_helper.rb",
      "lib/common_steps/helpers/record_helper.rb",
      "lib/common_steps/matchers/count.rb",
@@ -42,9 +43,11 @@ Gem::Specification.new do |s|
      "lib/common_steps/support/spec.rb",
      "lib/common_steps/tasks/cucumber.rake",
      "lib/common_steps/tasks/rspec.rake",
-     "spec/common_steps/common_steps_spec.rb",
      "spec/common_steps/helpers/conditions_parser_spec.rb",
      "spec/common_steps/helpers/record_helper_spec.rb",
+     "spec/common_steps/helpers/step_mother_helper.rb",
+     "spec/common_steps/navigation_steps_spec.rb",
+     "spec/common_steps/record_steps_spec.rb",
      "spec/common_steps_helper.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
@@ -57,19 +60,21 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/Byclosure/common_steps}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.1}
+  s.rubygems_version = %q{1.3.2}
   s.summary = %q{common_steps. Some common cucumber step definitions, rake tasks, and rspec matchers}
   s.test_files = [
-    "spec/spec_helper.rb",
-     "spec/common_steps_helper.rb",
+    "spec/common_steps/helpers/conditions_parser_spec.rb",
      "spec/common_steps/helpers/record_helper_spec.rb",
-     "spec/common_steps/helpers/conditions_parser_spec.rb",
-     "spec/common_steps/common_steps_spec.rb"
+     "spec/common_steps/helpers/step_mother_helper.rb",
+     "spec/common_steps/navigation_steps_spec.rb",
+     "spec/common_steps/record_steps_spec.rb",
+     "spec/common_steps_helper.rb",
+     "spec/spec_helper.rb"
   ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 2
+    s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<rspec>, [">= 0"])

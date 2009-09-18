@@ -6,7 +6,7 @@ Given /^there (is|are) (\w+) (.*) with (a|an) (.*)$/ do |_, count_str, record_na
   num.times { Factory(singular_record_name.gsub(/\s/, "_"), conditions) }
 end
 
-Given /^there (is|are) (\w) (\w*)$/ do |_, count_str, record_name|
+Given /^there (is|are) (\w+) (\w+)$/ do |_, count_str, record_name|
   singular_record_name = record_singular_name(record_name)
   num = str_to_num(count_str)
   num.times { Factory(singular_record_name.gsub(/\s/, "_")) }

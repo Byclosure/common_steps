@@ -12,7 +12,8 @@ Given /^there (is|are) (\w+) (\w+)$/ do |_, count_str, record_name|
   num.times { Factory(singular_record_name.gsub(/\s/, "_")) }
 end
 
-Then /^there should be (\w+) (\w+)$/ do |count_str, record_name|
+Then /^there should be (\w+) (\w+)$/ do |count_str, record_name_str|
+  record_name = record_name_str.gsub(' ', '_')
   num = str_to_num(count_str)
   record_name_to_class(record_name).should count(num)
 end

@@ -1,6 +1,6 @@
 module RecordHelper
   def record_singular_name(record_name)
-    record_name.gsub('_', ' ').downcase.singularize
+    record_name.gsub(' ', '_').downcase.singularize
   end
 
   def record_name_to_class(record_name)

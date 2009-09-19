@@ -26,10 +26,10 @@ Given /^the following (\w+):?$/ do |record_name, table|
   end
 end
 
-Then /^there should be (\d+) (.+)$/ do |count_str, record_name|
-  num = str_to_num(count_str)
-  record_name_to_class(record_name).should count(num)
-end
+#Then /^there should be (\d+) (.+)$/ do |count_str, record_name|
+#  num = str_to_num(count_str)
+#  record_name_to_class(record_name).should count(num)
+#end
 
 Then /^there should be the following (.+):?$/ do |record_name, table|
   recordize!(record_name, table)

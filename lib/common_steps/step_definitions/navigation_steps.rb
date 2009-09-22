@@ -4,6 +4,8 @@ end
 
 When /^I go to "([^\"]*)"$/ do |page_name|
   visit page_name
+  @can_follow_url = page_name
+  @can_take_screeshot = true
 end
 
 When /^I go to the homepage$/ do

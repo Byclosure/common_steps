@@ -15,6 +15,7 @@ end
 
 When /^I fill in "([^\"]*)" with "([^\"]*)"$/ do |field, value|
   fill_in(field, :with => value)
+  @can_take_screeshot = true
 end
 
 When /^I select "([^\"]*)" from "([^\"]*)"$/ do |value, field|

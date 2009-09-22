@@ -1,3 +1,4 @@
+=begin
 # Commonly used webrat steps
 # http://github.com/brynary/webrat
 
@@ -118,4 +119,4 @@ end
 Then /^the "([^\"]*)" field should be "([^\"]*)"$/ do |name, value|
   response.should have_tag('form')
 end
-
+=end

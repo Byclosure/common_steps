@@ -12,12 +12,6 @@ Given /^there (is|are) (\w+) (\w+)$/ do |_, count_str, record_name|
   num.times { Factory(singular_record_name.gsub(/\s/, "_")) }
 end
 
-Then /^there should be (\w+) (\w+)$/ do |count_str, record_name_str|
-  record_name = record_name_str.gsub(' ', '_')
-  num = str_to_num(count_str)
-  record_name_to_class(record_name).should count(num)
-end
-
 Given /^the following (\w+):?$/ do |record_name, table|
   recordize!(record_name, table)
   singular_record_name = record_singular_name(record_name)
@@ -26,10 +20,10 @@ Given /^the following (\w+):?$/ do |record_name, table|
   end
 end
 
-#Then /^there should be (\d+) (.+)$/ do |count_str, record_name|
-#  num = str_to_num(count_str)
-#  record_name_to_class(record_name).should count(num)
-#end
+Then /^there should be (\d+) (.+)$/ do |count_str, record_name|
+  num = str_to_num(count_str)
+  record_name_to_class(record_name).should count(num)
+end
 
 Then /^there should be the following (.+):?$/ do |record_name, table|
   recordize!(record_name, table)
@@ -38,7 +32,6 @@ Then /^there should be the following (.+):?$/ do |record_name, table|
     class_name.exists?(hash).should == true # TODO vasco: make a matcher for this
   end
 end
-
 Then /^there should be (\w+) (\w+) with a (.*)$/ do |count_str, record_name, record_conditions|
   class_name = record_name_to_class(record_name)
   conditions = conditions_from_str(record_conditions)

@@ -18,8 +18,8 @@ When /^I go to the new (.+) page$/ do |record_name|
 end
 
 When /^I go to the list page of (.+)$/ do |record_name|
-  path = record_name.pluralize # TODO refact record_class_to_path(record_class)
-  When "I go to \"/#{path}\""
+  record_class = record_name_to_class(record_name)
+  When "I go to \"#{record_class_to_path(record_class)}\""
 end
 
 Given /^I am on the edit page of the (.+) with (a|an) (.*)$/ do |record_name, _, record_conditions|

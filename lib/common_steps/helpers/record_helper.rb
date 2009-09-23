@@ -89,7 +89,6 @@ module RecordHelper
 #      base[attr_from_name(class_record, attr_name)] = value_from_str(value_str)
 #      base
 #    end
-
     conds.inject({}) {|base, (attr, value_str)| base[attr] = instance_eval(value_str); base}
   end
 

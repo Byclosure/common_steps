@@ -1,7 +1,3 @@
-When /^I (\w+) the form with$/ do |submit_name, table|
-  pending
-end
-
 When /^I go to "([^\"]*)"$/ do |page_name|
   visit page_name
   @can_follow_url = page_name

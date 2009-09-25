@@ -86,7 +86,7 @@ When /^I attach the file at "([^\"]*)" to "([^\"]*)"$/ do |path, field|
 end
 
 Then /^I should see "([^\"]*)"$/ do |text|
-  response.should contain(text)
+  response_body.should match(/#{text}/)
 end
 
 Then /^I should see the list "([^\"]*)"/ do |text|
@@ -95,7 +95,7 @@ Then /^I should see the list "([^\"]*)"/ do |text|
 end
 
 Then /^I should not see "([^\"]*)"$/ do |text|
-  response.should_not contain(text)
+  response_body.should_not match(/#{text}/)
 end
 
 Then /^I should not see the list "([^\"]*)"/ do |text|

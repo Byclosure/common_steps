@@ -87,7 +87,7 @@ end
 
 Then /^I should see "([^\"]*)"$/ do |text|
   response_body.should match(/#{text}/)
-  @can_take_screeshot = true
+  @can_take_screenshot = true
 end
 
 Then /^I should see the list "([^\"]*)"/ do |text|

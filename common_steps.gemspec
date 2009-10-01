@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Vasco Andrade e Silva", "Duarte Henriques"]
-  s.date = %q{2009-09-28}
+  s.date = %q{2009-10-01}
   s.description = %q{common_steps. Some common cucumber step definitions, rake tasks, and rspec matchers}
   s.email = ["vasco@byclosure.com", "duarte@byclosure.com"]
   s.extra_rdoc_files = [

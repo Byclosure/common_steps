@@ -27,10 +27,11 @@ end
 
 Then /^there should be the following (.+):?$/ do |record_name, table|
   recordize!(record_name, table)
-  class_name = record_name_to_class(record_name)
+  record_class = record_name_to_class(record_name)
   table.hashes.each do |hash|
-    class_name.exists?(hash).should == true # TODO vasco: make a matcher for this
+    record_class.exists?(hash).should == true # TODO vasco: make a matcher for this
   end
+  @record_ops = {record_singular_name(record_name) => [table.hashes.map{|hash|record_class.find(:first, :conditions => hash, :select => [record_class.primary_key]).send(record_class.primary_key)}, table.hashes.first.keys]}
 end
 
 Then /^there should be (\w+) (\w+) with a (.*)$/ do |count_str, record_name, record_conditions|

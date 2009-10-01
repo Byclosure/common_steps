@@ -43,9 +43,9 @@ end
 #end
 
 Then /^I should be on "([^\"]*)"$/ do |page_name|
-  URI.parse(current_url).path.should == page_name
   @can_follow_url = page_name
   @can_take_screenshot = true
+  URI.parse(current_url).path.should == page_name
 end
 
 Then /^I should be on the show page of the (.+) with (a|an) (.*)$/ do |record_name, _,record_conditions|

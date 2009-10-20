@@ -1,6 +1,6 @@
 module StepMotherHelper
   def step_should_match(step_string)
-    it { @step_mother.should step_match(step_string) }  
+    it { @step_mother.should step_match(step_string) }
   end  
   
   def artist_should_count(n, step_string)

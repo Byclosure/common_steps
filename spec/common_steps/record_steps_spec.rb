@@ -13,6 +13,7 @@ describe "Cucumber instance with record_steps.rb and World(RecordHelper) loaded"
   
   before do
     @step_mother = Cucumber::Cli::Main.step_mother
+    @step_mother.options = @step_mother.options.merge(:guess => true)
     @step_mother.load_code_file(File.expand_path(File.dirname(__FILE__) + "/../../lib/common_steps/step_definitions/record_steps.rb"))
     @dsl = Object.new
     @dsl.extend(Cucumber::RbSupport::RbDsl)

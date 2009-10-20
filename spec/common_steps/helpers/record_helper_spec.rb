@@ -22,7 +22,7 @@ describe RecordHelper, "with Artist, MagnificArtist, ::Admin::Painting defined" 
     @env.record_singular_name('ArTiSt').should == 'artist'
   end
   it "#record_singular_name('ReCiPe iNgReDiEnTs') should == 'recipe ingredient'" do
-    @env.record_singular_name('ReCiPe iNgReDiEnTs').should == 'recipe ingredient'
+    @env.record_singular_name('ReCiPe iNgReDiEnTs').should == 'recipe_ingredient'
   end
   
   it { @env.should respond_to(:record_name_to_class) }

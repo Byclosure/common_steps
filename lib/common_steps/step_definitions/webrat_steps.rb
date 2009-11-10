@@ -85,18 +85,32 @@ When /^I attach the file at "([^\"]*)" to "([^\"]*)"$/ do |path, field|
   attach_file(field, path)
 end
 
+
+require 'hpricot'
+def strip_tags(text)
+  text = text.dom.to_s if text.respond_to?(:dom)
+  Hpricot(text).to_plain_text.gsub(/\s+/, ' ')
+end
+
 Then /^I should see "([^\"]*)"$/ do |text|
-  response_body.should match(/#{text}/)
+  strip_tags(response_body).should match(/#{text}/)
   @can_take_screenshot = true
+end
+
+Then /^I should not see "([^\"]*)"$/ do |text|
+  strip_tags(response_body).should_not match(/#{text}/)
+  @can_take_screenshot = true
+end
+
+Then /^I should see "([^\"]*)" within "([^\"]*)"$/ do |text, selector|
+  within(selector) do |content|
+    strip_tags(content).should match(/#{text}/)
+  end
 end
 
 Then /^I should see the list "([^\"]*)"/ do |text|
   list = text.split(", ")
   list.each {|e| Then "I should see \"#{e}\"" }
-end
-
-Then /^I should not see "([^\"]*)"$/ do |text|
-  response_body.should_not match(/#{text}/)
 end
 
 Then /^I should not see the list "([^\"]*)"/ do |text|
